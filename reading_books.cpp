@@ -39,19 +39,18 @@ int main(){
     cout.tie(0);
 	
 	{
-		int n, k; 
-        cin >> n >> k;
-        vector<int> a(n);
-        iota(a.begin(), a.end(), 1);
-        ordered_set<int> os(a.begin(), a.end());
-        int pos = 0;
-        while (os.size()) {
-            pos = (pos + k) % (os.size());
-            cout << *os.find_by_order(pos) << " ";
-            os.erase(os.find_by_order(pos));
+        ll n;
+        cin>>n;
+        ll a[n];
+        inar(a,n);
+        sort(a,a+n);
+        ll sum,maxsum=0;
+        rep(i,n){
+            sum+=a[i];
+            maxsum=max(maxsum,a[i]);
         }
-        cout << "\n";
-				
+    
+        cout<<max(sum,2*maxsum)<<"\n";
 			
 	}
 		

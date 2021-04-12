@@ -31,7 +31,13 @@ typedef map<string,string> mss;
 #define inar(a,n) rep(i,n) {cin>>a[i];}
 #define inv(v,n) ll val; rep(i,n){cin>>val; v.PB(val);} 
 
+struct el {
+    ll val,id;
+};
 
+bool compare(el a,el b){
+    return a.val<b.val;
+}
  
 int main(){
     ios_base::sync_with_stdio(false);
@@ -39,19 +45,32 @@ int main(){
     cout.tie(0);
 	
 	{
-		int n, k; 
-        cin >> n >> k;
-        vector<int> a(n);
-        iota(a.begin(), a.end(), 1);
-        ordered_set<int> os(a.begin(), a.end());
-        int pos = 0;
-        while (os.size()) {
-            pos = (pos + k) % (os.size());
-            cout << *os.find_by_order(pos) << " ";
-            os.erase(os.find_by_order(pos));
+        ll n,x;
+        cin>>n>>x;
+        el a[n];
+        rep(i,n){
+            cin>>a[i].val;
+            a[i].id=i+1;
         }
-        cout << "\n";
-				
+        sort(a,a+n,compare);
+        ll ans[3]={0,0,0};
+        rep(k,n-3){
+        repf(i,k+1,n-3){
+                ll s=i+1,e=n-1;
+                while(s<e){
+                    if((a[k].val + a[i].val + a[s].val+a[e].val) == x){
+                        cout<<a[k].id<<" "<<a[i].id<<" "<<a[s].id<<" "<<a[e].id<<"\n";
+                        return 0;
+                    }
+                    if(a[k].val + a[i].val + a[s].val + a[e].val <x)
+                        s++;
+                    else e--;
+
+                }
+        }
+        }
+        cout<<"IMPOSSIBLE\n";
+        
 			
 	}
 		

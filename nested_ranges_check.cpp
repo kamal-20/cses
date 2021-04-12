@@ -31,7 +31,20 @@ typedef map<string,string> mss;
 #define inar(a,n) rep(i,n) {cin>>a[i];}
 #define inv(v,n) ll val; rep(i,n){cin>>val; v.PB(val);} 
 
+struct range {
+    ll s,e;
+    ll container=0,contained=0;
+    ll id;
+};
 
+bool compare (range a, range b){
+    if(a.s==b.s) return a.e>b.e;
+    else return a.s<b.s;
+}
+
+bool compareid (range a,range b){
+    return a.id<b.id;
+}
  
 int main(){
     ios_base::sync_with_stdio(false);
@@ -39,20 +52,26 @@ int main(){
     cout.tie(0);
 	
 	{
-		int n, k; 
-        cin >> n >> k;
-        vector<int> a(n);
-        iota(a.begin(), a.end(), 1);
-        ordered_set<int> os(a.begin(), a.end());
-        int pos = 0;
-        while (os.size()) {
-            pos = (pos + k) % (os.size());
-            cout << *os.find_by_order(pos) << " ";
-            os.erase(os.find_by_order(pos));
+        ll n;
+        cin>>n;
+        range a[n];
+        rep(i,n){
+            cin>>a[i].s>>a[i].e;
+            a[i].id =i;
         }
-        cout << "\n";
-				
-			
+        sort(a,a+n,compare);
+        vector<int> ans1(n), ans2(n);
+	    ordered_set<array<ll,2>> os1, os2;
+	    for (int i = 0, j = n - 1; i < n; i++, j--) {
+		    ans1[a[j].id] = os1.order_of_key({a[j].e + 1, -1});
+		    ans2[a[i].id] = i - os2.order_of_key({a[i].e, -1});
+		    os1.insert({a[j].e, j});
+		    os2.insert({a[i].e, i});
+	    }
+	for (int x : ans1) cout << (x > 0) << " ";
+	cout << "\n";
+	for (int x : ans2) cout << (x > 0) << " ";
+	cout << "\n";   
 	}
 		
 	

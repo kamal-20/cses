@@ -31,7 +31,12 @@ typedef map<string,string> mss;
 #define inar(a,n) rep(i,n) {cin>>a[i];}
 #define inv(v,n) ll val; rep(i,n){cin>>val; v.PB(val);} 
 
-
+struct task{
+    ll duration,deadline;
+};
+bool compare(task a, task  b){
+    return a.duration< b.duration;
+}
  
 int main(){
     ios_base::sync_with_stdio(false);
@@ -39,19 +44,19 @@ int main(){
     cout.tie(0);
 	
 	{
-		int n, k; 
-        cin >> n >> k;
-        vector<int> a(n);
-        iota(a.begin(), a.end(), 1);
-        ordered_set<int> os(a.begin(), a.end());
-        int pos = 0;
-        while (os.size()) {
-            pos = (pos + k) % (os.size());
-            cout << *os.find_by_order(pos) << " ";
-            os.erase(os.find_by_order(pos));
-        }
-        cout << "\n";
-				
+				ll n;
+                cin>>n;
+                task a[n];
+                rep(i,n){
+                    cin >> a[i].duration>>a[i].deadline;
+                }
+                sort(a,a+n,compare);
+                ll ans=0,totaltime=0;
+                rep(i,n){
+                    ans+=a[i].deadline-totaltime-a[i].duration;
+                    totaltime+=a[i].duration;
+                }
+                cout<<ans<<"\n";
 			
 	}
 		

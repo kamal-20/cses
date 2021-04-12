@@ -39,21 +39,29 @@ int main(){
     cout.tie(0);
 	
 	{
-		int n, k; 
-        cin >> n >> k;
-        vector<int> a(n);
-        iota(a.begin(), a.end(), 1);
-        ordered_set<int> os(a.begin(), a.end());
-        int pos = 0;
-        while (os.size()) {
-            pos = (pos + k) % (os.size());
-            cout << *os.find_by_order(pos) << " ";
-            os.erase(os.find_by_order(pos));
+        ll n;
+        cin>>n;
+        vector<array<int,3>> a(n);
+        for (int i = 0; i < n; i++) {
+            int l, r; cin >> l >> r;
+            a[i] = {l, r, i};
         }
+        sort(a.begin(), a.end());
+        vector<int> ans(n);
+        priority_queue<array<int,2>,vector<array<int,2>>,greater<array<int,2>>> pq;
+        for (auto [l, r, i] : a) {
+            if (pq.empty() || l <= pq.top()[0]) {
+                ans[i] = pq.size() + 1;
+            } else {
+                ans[i] = pq.top()[1];
+                pq.pop();
+            }
+            pq.push({r, ans[i]});
+        }
+        cout << pq.size() << "\n";
+        for (int x : ans) cout << x << " ";
         cout << "\n";
-				
-			
-	}
+        }
 		
 	
         

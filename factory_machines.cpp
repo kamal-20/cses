@@ -31,7 +31,18 @@ typedef map<string,string> mss;
 #define inar(a,n) rep(i,n) {cin>>a[i];}
 #define inv(v,n) ll val; rep(i,n){cin>>val; v.PB(val);} 
 
-
+const ll INF = 1e18;
+const ll max_n = 2e5 + 1;
+int n, t, a[max_n];
+ 
+bool ok(ll mid) {
+    ll cnt = 0;
+    for (int i = 0; i < n; i++) {
+        cnt += mid / a[i];
+        if (cnt >= t) return true;
+    }
+    return false;
+}
  
 int main(){
     ios_base::sync_with_stdio(false);
@@ -39,19 +50,15 @@ int main(){
     cout.tie(0);
 	
 	{
-		int n, k; 
-        cin >> n >> k;
-        vector<int> a(n);
-        iota(a.begin(), a.end(), 1);
-        ordered_set<int> os(a.begin(), a.end());
-        int pos = 0;
-        while (os.size()) {
-            pos = (pos + k) % (os.size());
-            cout << *os.find_by_order(pos) << " ";
-            os.erase(os.find_by_order(pos));
+        cin >> n >> t;
+        rep(i,n) cin >> a[i];
+        ll lo = 0, hi = INF;
+        while (lo+1 < hi) {
+            ll mid = (lo + hi) / 2;
+            if (ok(mid)) hi = mid;
+            else lo = mid;
         }
-        cout << "\n";
-				
+        cout << hi << "\n";
 			
 	}
 		
