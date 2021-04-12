@@ -48,7 +48,6 @@ int main(){
         ll sum=0,cnt=0;
         rep(i,n){
             sum+=a[i];
-            
             cnt+=mp[sum-x];
             mp[sum]++;
 
